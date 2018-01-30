@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         //Callfav_list();
 
 
-
-
         pcbang_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -150,27 +148,29 @@ public class MainActivity extends AppCompatActivity {
     public void Callfav_list() {
         Pcinfo_arr.clear();
         String fav_arr = pref.getString("fav_list", null);
-        if (fav_arr == null) {
-            Log.d("Main_fav_data", "fav_save_no data");
-            textView.setVisibility(View.VISIBLE);
-            pcbang_list.setVisibility(View.GONE);
-        } else {
-            pcbang_list.setVisibility(View.VISIBLE);
-            textView.setVisibility(View.GONE);
-            Log.d("Main_fav_data", "date ok  : "+fav_arr);
-            try {
-                JSONArray json_fav_list = new JSONArray(fav_arr);
+        try {
+            JSONArray json_fav_list = new JSONArray(fav_arr);
+
+            if (json_fav_list == null || json_fav_list.length() ==0) {
+
+                textView.setVisibility(View.VISIBLE);
+                pcbang_list.setVisibility(View.GONE);
+                Log.d("Main_fav_data", "fav_save_no data");
+            } else {
+
+                pcbang_list.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.GONE);
 
                 for (int i = 0; i < json_fav_list.length(); i++) {
                     SetPcBangList(json_fav_list.optString(i));
                 }
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                Log.d("Main_fav_data", "date ok  : " + fav_arr);
             }
 
 
-            Log.d("Main_fav_data", "shared  : " + Pcinfo_arr.size());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

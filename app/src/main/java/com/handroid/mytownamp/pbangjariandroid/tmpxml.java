@@ -7,7 +7,7 @@ package com.handroid.mytownamp.pbangjariandroid;
 public class tmpxml {
 String tmp ="타이틀바,앱바, 즐겨찾기를 위한 pc방고유코드(primary key),pc방리스트출력,클릭후 pc방 상세정보,전화예약 또는 좌석보기할건지(경로 축약)";
     String tmp1="pc방 상세 사진정보(스크롤가능한 뷰?,카드뷰?)";
-    String tmp2="후기 평점";
+    String tmp2="후기 평점";//zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
     /**
      * package com.example.mytownpcbang.Activity;
 
