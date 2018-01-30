@@ -2,8 +2,10 @@ package com.handroid.mytownamp.pbangjariandroid.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -35,6 +37,8 @@ public class Pcbang_Favorite_Activity extends Activity {
     pcAdapter PcbangAdapter;
     ArrayList<PcBang_info> Pcinfo_arr = new ArrayList<>();
     ListView pcbang_list;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
 
 
@@ -48,14 +52,16 @@ public class Pcbang_Favorite_Activity extends Activity {
         btn_search_pc=(TextView)findViewById(R.id.btn_search_pc);
 
 
+        pref = getSharedPreferences("test2", MODE_PRIVATE);
+        editor = pref.edit();
+
+
 
         pcbang_list=(ListView)findViewById(R.id.loc_list);
 
         PcbangAdapter = new pcAdapter(this, R.layout.pcbanglist, Pcinfo_arr);
 
-
-        HttpRequester httpRequester = new HttpRequester();
-        httpRequester.request(Pcbang_uri.pcBang_allceo, httpCallback);
+        Callfav_list();
 
         pcbang_list.setAdapter(PcbangAdapter);
 
@@ -87,7 +93,12 @@ public class Pcbang_Favorite_Activity extends Activity {
         });
     }
 
+    public synchronized void SetPcBangList(String data) { //샘플데이터
 
+        HttpRequester httpRequester = new HttpRequester();
+        httpRequester.request(Pcbang_uri.pcBang_search_id + data, httpCallback);
+
+    }
 
 
 
@@ -95,35 +106,59 @@ public class Pcbang_Favorite_Activity extends Activity {
         @Override
         public void onResult(String result) {
             try {
-                Pcinfo_arr.clear(); //서버 데이터 통신
-                JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
-                for (int i = 0; i < root.length(); i++) {
-                    Pcinfo_arr.add(
-                            new PcBang_info(root.getJSONObject(i).getString("pcBangName"),
-                                    root.getJSONObject(i).getString("tel"),
-                                    root.getJSONObject(i).getJSONObject("address").getString("postCode"),
-                                    root.getJSONObject(i).getJSONObject("address").getString("roadAddress"),
-                                    root.getJSONObject(i).getString("_id"),
-                                    root.getJSONObject(i).getJSONObject("address").getString("detailAddress"),
-                                    root.getJSONObject(i).getDouble("ratingScore"),
-                                    Double.parseDouble(root.getJSONObject(0).getJSONObject("location").getString("lat")),
-                                    Double.parseDouble(root.getJSONObject(0).getJSONObject("location").getString("lon"))));
+                JSONArray root = new JSONArray(result);
+                Log.d("Main_fav_data", "call" + result);
 
-                }
+                Pcinfo_arr.add(
+                        new PcBang_info(root.getJSONObject(0).getString("pcBangName"),
+                                root.getJSONObject(0).getString("tel"),
+                                root.getJSONObject(0).getJSONObject("address").getString("postCode"),
+                                root.getJSONObject(0).getJSONObject("address").getString("roadAddress"),
+                                root.getJSONObject(0).getString("_id"),
+                                root.getJSONObject(0).getJSONObject("address").getString("detailAddress"),
+                                root.getJSONObject(0).getDouble("ratingScore"),
+                                Double.parseDouble(root.getJSONObject(0).getJSONObject("location").getString("lat")),
+                                Double.parseDouble(root.getJSONObject(0).getJSONObject("location").getString("lon"))));
 
+
+                Log.d("Main_fav_data", "호출완료");
 
             } catch (JSONException d) {
 
                 d.printStackTrace();
 
-            }
-            catch (NullPointerException f){
+            } catch (NullPointerException f) {
                 Toast.makeText(Pcbang_Favorite_Activity.this, "데이터 에러", Toast.LENGTH_SHORT).show();
             }
             PcbangAdapter.notifyDataSetChanged();
         }
     };
 
+
+    public void Callfav_list() {
+        Pcinfo_arr.clear();
+        String fav_arr = pref.getString("fav_list", null);
+        if (fav_arr == null) {
+            Log.d("Main_fav_data", "fav_save_no data");
+        } else {
+
+
+            Log.d("Main_fav_data", "date ok  : "+fav_arr);
+            try {
+                JSONArray json_fav_list = new JSONArray(fav_arr);
+
+                for (int i = 0; i < json_fav_list.length(); i++) {
+                    SetPcBangList(json_fav_list.optString(i));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+            Log.d("Main_fav_data", "shared  : " + Pcinfo_arr.size());
+        }
+    }
 
 
 }
