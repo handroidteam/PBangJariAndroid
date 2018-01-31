@@ -52,7 +52,6 @@ public class IntroActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
 //테스트
                 checkPermission();
             }

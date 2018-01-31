@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 d.printStackTrace();
 
             } catch (NullPointerException f) {
-                Toast.makeText(MainActivity.this, "데이터 에러", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
             PcbangAdapter.notifyDataSetChanged();
         }
@@ -169,9 +169,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-        } catch (Exception e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException d) {
+            d.printStackTrace();
+        }
+
     }
 
 

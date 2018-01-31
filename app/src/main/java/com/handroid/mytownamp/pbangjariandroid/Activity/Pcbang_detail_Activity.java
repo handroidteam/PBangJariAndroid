@@ -268,7 +268,7 @@ public class Pcbang_detail_Activity extends AppCompatActivity implements OnMapRe
             map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
 
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.pcbang_loc_icon));
             markerOptions.position(latLng);
             markerOptions.title(pcBang_info.getPcBangName());
             markerOptions.snippet("TEL : " + pcBang_info.getpcBangTel());
@@ -374,11 +374,11 @@ public class Pcbang_detail_Activity extends AppCompatActivity implements OnMapRe
                 Log.d("detail_pc", "호출완료");
 
             } catch (JSONException d) {
-
                 d.printStackTrace();
+                Log.d("detail_pc", "JSON parsing error");
 
             } catch (NullPointerException f) {
-                Toast.makeText(Pcbang_detail_Activity.this, "데이터 에러", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Pcbang_detail_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
         }
     };
