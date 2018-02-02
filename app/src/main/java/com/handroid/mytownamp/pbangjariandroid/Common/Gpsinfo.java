@@ -1,4 +1,4 @@
-package com.handroid.mytownamp.pbangjariandroid;
+package com.handroid.mytownamp.pbangjariandroid.Common;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 
 /**
  * Created by Jeongmin on 2018-01-26.
@@ -98,8 +99,9 @@ public class Gpsinfo extends Service implements LocationListener {
                 }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (SecurityException s){
+            s.printStackTrace();
         }
         return location;
     }
@@ -156,6 +158,7 @@ public class Gpsinfo extends Service implements LocationListener {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         mContext.startActivity(intent);
+                        Log.d("data_gps","Active start");
 
                     }
                 });

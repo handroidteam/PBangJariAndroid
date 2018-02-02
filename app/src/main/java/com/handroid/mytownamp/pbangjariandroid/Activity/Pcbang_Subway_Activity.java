@@ -1,6 +1,7 @@
 package com.handroid.mytownamp.pbangjariandroid.Activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.PcBang_info;
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_detail_info;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.pcAdapter;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
-import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequester;
-import com.handroid.mytownamp.pbangjariandroid.Server.Pcbang_uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,20 +33,20 @@ public class Pcbang_Subway_Activity extends Activity {
     ArrayList<PcBang_info> Pcinfo_arr = new ArrayList<>();
     ListView pcbang_list;
 
-
+    Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcbang_subway_layout);
+        mContext=getApplicationContext();
+        btn_close= findViewById(R.id.btn_text_back);
+        App_Title= findViewById(R.id.text_title);
+        btn_search_sub = findViewById(R.id.btn_search_sub);
 
-        btn_close=(TextView)findViewById(R.id.btn_text_back);
-        App_Title=(TextView)findViewById(R.id.text_title);
-        btn_search_sub =(TextView)findViewById(R.id.btn_search_sub);
 
 
-
-        pcbang_list=(ListView)findViewById(R.id.loc_list);
+        pcbang_list= findViewById(R.id.loc_list);
 
         PcbangAdapter = new pcAdapter(this, R.layout.pcbanglist, Pcinfo_arr);
 
@@ -61,7 +59,7 @@ public class Pcbang_Subway_Activity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 //상세정보 액티비티
-                Intent pcbang = new Intent(Pcbang_Subway_Activity.this, Pcbang_detail_Activity.class);
+                Intent pcbang = new Intent(Pcbang_Subway_Activity.this, Pcbang_Detail_Activity.class);
                 pcbang.putExtra("pcbanginfo", Pcinfo_arr.get(position).get_id());//pc방 고유 코드
                 startActivity(pcbang);
 

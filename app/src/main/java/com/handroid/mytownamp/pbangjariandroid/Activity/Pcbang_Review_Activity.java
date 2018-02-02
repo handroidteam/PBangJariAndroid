@@ -1,42 +1,43 @@
 package com.handroid.mytownamp.pbangjariandroid.Activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.PcBang_info;
+import com.handroid.mytownamp.pbangjariandroid.Common.Pcbang_uri;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
-import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequester;
-import com.handroid.mytownamp.pbangjariandroid.Server.Pcbang_uri;
+import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 
-public class Pcbang_review_Activity extends Activity {
+public class Pcbang_Review_Activity extends Activity {
 
     TextView review_text;
     String Pcbang_id;
+    Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcbang_review_page);
-        review_text = (TextView) findViewById(R.id.review_text);
+        review_text = findViewById(R.id.review_text);
         Pcbang_id = getIntent().getStringExtra("pcbanginfo2");
-
+        mContext = getApplicationContext();
 
         SetPcBangList(Pcbang_id);
     }
 
     public synchronized void SetPcBangList(String data) { //샘플데이터
 
-        HttpRequester httpRequester = new HttpRequester();
-        httpRequester.request(Pcbang_uri.pcBang_map_info + data, httpCallback);
+        HttpRequest httpRequester = new HttpRequest(httpCallback);
+        httpRequester.execute(Pcbang_uri.pcBang_map_info + data);
 
     }
 
@@ -67,7 +68,7 @@ public class Pcbang_review_Activity extends Activity {
                 d.printStackTrace();
 
             } catch (NullPointerException f) {
-                Toast.makeText(Pcbang_review_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Pcbang_Review_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
 
         }

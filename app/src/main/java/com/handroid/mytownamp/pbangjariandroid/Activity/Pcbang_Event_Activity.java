@@ -1,6 +1,7 @@
 package com.handroid.mytownamp.pbangjariandroid.Activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +13,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.PcBang_info;
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_detail_info;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.pcAdapter;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
-import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequester;
-import com.handroid.mytownamp.pbangjariandroid.Server.Pcbang_uri;
+import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequest;
+import com.handroid.mytownamp.pbangjariandroid.Common.Pcbang_uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,22 +35,36 @@ public class Pcbang_Event_Activity extends Activity {
     pcAdapter PcbangAdapter;
     ArrayList<PcBang_info> Pcinfo_arr = new ArrayList<>();
     ListView pcbang_list;
+    Context mContext;
 
+
+    public void setting_layout() {
+        mContext = getApplicationContext();
+        btn_close = findViewById(R.id.btn_text_back);
+        App_Title = findViewById(R.id.text_title);
+        pcbang_list = findViewById(R.id.event_list);
+
+        PcbangAdapter = new pcAdapter(this, R.layout.pcbanglist, Pcinfo_arr);
+        pcbang_list.setAdapter(PcbangAdapter);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcbang_event_layout);
+        setting_layout();
 
-        btn_close = (TextView) findViewById(R.id.btn_text_back);
-        App_Title = (TextView) findViewById(R.id.text_title);
-        pcbang_list = (ListView) findViewById(R.id.event_list);
+        TextView call = findViewById(R.id.btn_call);
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HttpRequest httpRequest = new HttpRequest(httpCallback);
+                httpRequest.execute(Pcbang_uri.pcBang_allceo);
 
-        PcbangAdapter = new pcAdapter(this, R.layout.pcbanglist, Pcinfo_arr);
-        pcbang_list.setAdapter(PcbangAdapter);
-
-        HttpRequester httpRequester = new HttpRequester();
-        httpRequester.request(Pcbang_uri.pcBang_allceo, httpCallback);
+               // HttpRequester httpRequester = new HttpRequester();
+               // httpRequester.request(Pcbang_Event_Activity.this, Pcbang_uri.pcBang_allceo, httpCallback);
+            }
+        });
 
 
         pcbang_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,7 +72,7 @@ public class Pcbang_Event_Activity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 //상세정보 액티비티
-                Intent pcbang = new Intent(Pcbang_Event_Activity.this, Pcbang_detail_Activity.class);
+                Intent pcbang = new Intent(Pcbang_Event_Activity.this, Pcbang_Detail_Activity.class);
                 pcbang.putExtra("pcbanginfo", Pcinfo_arr.get(position).get_id());//pc방 고유 코드
                 startActivity(pcbang);
 
@@ -71,6 +85,11 @@ public class Pcbang_Event_Activity extends Activity {
                 finish();
             }
         });
+
+    }
+
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -88,7 +107,7 @@ public class Pcbang_Event_Activity extends Activity {
                         tmps = root.getJSONObject(i).getDouble("ratingScore");
                     } catch (JSONException e) {
                         tmps = 0.0;
-                        Log.d("event_data","rating error");
+                        Log.d("event_data", "rating error");
                     }
 
                     Pcinfo_arr.add(
@@ -111,7 +130,7 @@ public class Pcbang_Event_Activity extends Activity {
             } catch (JSONException d) {
 
                 d.printStackTrace();
-                Log.d("event_data","어디서 에러난거?");
+                Log.d("event_data", "어디서 에러난거?");
 
             } catch (NullPointerException f) {
                 Toast.makeText(Pcbang_Event_Activity.this, "데이터 에러", Toast.LENGTH_SHORT).show();

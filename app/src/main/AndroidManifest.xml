@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.IntroActivity">
+        <activity android:name=".Activity.Pcbang_Intro_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,13 +24,12 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCSBrazcq4_2ldSRka3S_37TCvlIRIWVac"/>
 
-        <activity android:name=".Activity.Pcbang_detail_Activity"/>
-        <activity android:name=".Activity.Pcbang_review_Activity"/>
         <activity android:name=".Activity.Pcbang_Myloc_Activity"/>
         <activity android:name=".Activity.Pcbang_Subway_Activity"/>
         <activity android:name=".Activity.Pcbang_Event_Activity"/>
         <activity android:name=".Activity.Pcbang_Favorite_Activity"/>
-        <activity android:name=".Activity.MainActivity"/>
+        <activity android:name=".Activity.Pcbang_Detail_Activity"/>
+        <activity android:name=".Activity.Pcbang_Main_Activity"/>
     </application>
 
 </manifest>

@@ -12,17 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.handroid.mytownamp.pbangjariandroid.Gpsinfo;
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.PcBang_info;
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_detail_info;
+import com.handroid.mytownamp.pbangjariandroid.Common.Gpsinfo;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_myloc_adpater;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_myloc_info;
-import com.handroid.mytownamp.pbangjariandroid.PcbangArray.pcAdapter;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
-import com.handroid.mytownamp.pbangjariandroid.Server.HttpPcbangRequest;
-import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequester;
-import com.handroid.mytownamp.pbangjariandroid.Server.Pcbang_uri;
+import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequest;
+import com.handroid.mytownamp.pbangjariandroid.Common.Pcbang_uri;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +30,9 @@ import java.util.ArrayList;
  * Created by Jeongmin on 2018-01-20.
  */
 
-public class Pcbang_Myloc_Activity extends Activity {
+public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListener,ListView.OnItemClickListener {
 
-    TextView btn_text_back, text_title;
+    TextView btn_text_back, text_title,btn_request;
 
     Pcbang_myloc_adpater PcbangAdapter;
     ArrayList<Pcbang_myloc_info> Pcinfo_arr = new ArrayList<>();
@@ -44,15 +40,23 @@ public class Pcbang_Myloc_Activity extends Activity {
     double topLat, bottomLat, leftLon, rightLon;
     JSONObject jsonObject;
     Gpsinfo gps;
-    Double Lat_range = 0.00438;
+
+
+    Double Lat_range = 0.00438; //약 500m인가
     Double Lon_range = 0.00568;
     double latitude, longitude;
 
     public void setting() {
-        btn_text_back = (TextView) findViewById(R.id.btn_text_back);
-        text_title = (TextView) findViewById(R.id.text_title);
+        btn_text_back = findViewById(R.id.btn_text_back);
+        text_title = findViewById(R.id.text_title);
+        btn_request= findViewById(R.id.btn_request);
+        btn_request.setOnClickListener(this);
+        btn_text_back.setOnClickListener(this);
+        pcbang_list = findViewById(R.id.loc_list);
+        PcbangAdapter = new Pcbang_myloc_adpater(this, R.layout.pcbanglist, Pcinfo_arr);
+        pcbang_list.setAdapter(PcbangAdapter);
 
-
+        pcbang_list.setOnItemClickListener(this);
     }
 
     @Override
@@ -61,78 +65,78 @@ public class Pcbang_Myloc_Activity extends Activity {
         setContentView(R.layout.pcbang_myloc_layout);
         //레이아웃 세팅
         setting();
-        Log.d("data_myloc","oncreate");
+        Log.d("data_myloc", "oncreate");
 
-        pcbang_list = (ListView) findViewById(R.id.loc_list);
-        PcbangAdapter = new Pcbang_myloc_adpater(this, R.layout.pcbanglist, Pcinfo_arr);
-        pcbang_list.setAdapter(PcbangAdapter);
-
-
-        pcbang_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                //상세정보 액티비티
-                Intent pcbang = new Intent(Pcbang_Myloc_Activity.this, Pcbang_detail_Activity.class);
-                pcbang.putExtra("pcbanginfo", Pcinfo_arr.get(position).get_id());//pc방 고유 코드
-                startActivity(pcbang);
-
-
-            }
-        });
-        btn_text_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-
-
+        //내 위치 켜지는 시간이 걸림
     }
 
 
-
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        Log.d("data_myloc","resume");
+        Log.d("data_myloc", "onResume");
         Location_SettingCheck();
     }
 
 
+    public void onClick(View o){
+        switch (o.getId()){
+            case R.id.btn_request :
+                Location_SettingCheck();
+                break;
+            case R.id.btn_text_back :
+                finish();
+                break;
+        }
+    }
 
-    public void Location_SettingCheck(){
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //상세정보 액티비티
+        Intent pcbang = new Intent(Pcbang_Myloc_Activity.this, Pcbang_Detail_Activity.class);
+        pcbang.putExtra("pcbanginfo", Pcinfo_arr.get(i).get_id());//pc방 고유 코드
+        startActivity(pcbang);
+    }
+
+    public void Location_SettingCheck() {
+        Log.d("data_myloc", "Gps Request!");
         gps = new Gpsinfo(Pcbang_Myloc_Activity.this);
+
         // GPS 사용유무 가져오기
         if (gps.isGetLocation()) {
 
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
 
-
-            Log.d("myloc_fav_data", "내위치 " + gps.getLatitude() + "/" + gps.getLongitude());
-
-            setmyloc(latitude, longitude);
+            if (latitude != 0 && longitude != 0) {
+                Log.d("data_myloc", "My Location  " + gps.getLatitude() + "/" + gps.getLongitude());
+                setmyloc(latitude, longitude);
+            }else{
+                Log.d("data_myloc", "Not found My location");
+            }
         } else {
             // GPS 를 사용할수 없으므로
+            Log.d("data_myloc", "GPS not connect");
             gps.showSettingsAlert();
+            gps.stopUsingGPS();
         }
 
     }
+
     public void SetPcBangList() { //샘플데이터
 
-        HttpPcbangRequest httpRequester = new HttpPcbangRequest();
-        httpRequester.request(Pcbang_uri.pcBang_map_range, jsonObject, httpCallback);
+        HttpRequest httpRequester = new HttpRequest(jsonObject, httpCallback);
+        httpRequester.execute(Pcbang_uri.pcBang_map_range);
 
     }
+
     HttpCallback httpCallback = new HttpCallback() {
         @Override
         public void onResult(String result) {
             try {
                 Pcinfo_arr.clear(); //서버 데이터 통신
                 JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
-                Log.d("myloc_fav_data", "결과" + result);
-                if(root.length()!=0){
+                Log.d("data_myloc", "결과" + result);
+                if (root.length() != 0) {
                     for (int i = 0; i < root.length(); i++) {
                         Pcinfo_arr.add(
                                 new Pcbang_myloc_info(root.getJSONObject(i).getString("pcBangName"),
@@ -148,7 +152,7 @@ public class Pcbang_Myloc_Activity extends Activity {
                         );
 
                     }
-                }else {
+                } else {
                     Toast.makeText(Pcbang_Myloc_Activity.this, "500M안에 PC방이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -176,7 +180,7 @@ public class Pcbang_Myloc_Activity extends Activity {
             jsonObject.put("leftLon", leftLon);
             jsonObject.put("rightLon", rightLon);
 
-            Log.d("myloc_fav_data", "쿼리4요소 : topLat = " + topLat + " bottomLat =  " + bottomLat + " leftLon = " + leftLon + " rightLon= " + rightLon);
+            Log.d("data_myloc", "쿼리4요소 : topLat = " + topLat + " bottomLat =  " + bottomLat + " leftLon = " + leftLon + " rightLon= " + rightLon);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
