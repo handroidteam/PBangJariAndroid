@@ -1,18 +1,15 @@
 package com.handroid.mytownamp.pbangjariandroid.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -29,12 +26,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.handroid.mytownamp.pbangjariandroid.Common.Pcbang_uri;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_detail_info;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequest;
-import com.handroid.mytownamp.pbangjariandroid.Common.Pcbang_uri;
 import com.handroid.mytownamp.pbangjariandroid.ViewSeat;
 
 import org.json.JSONArray;
@@ -42,7 +38,9 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-
+/**
+ * Created by Jeongmin on 2018-02-02.
+ */
 
 public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
@@ -103,7 +101,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcbang_detail_layout);
         SetLayout();//레이아웃세팅;
