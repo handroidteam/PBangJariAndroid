@@ -42,7 +42,7 @@ public class Pcbang_Main_Activity extends AppCompatActivity {
 
 
     void setLayout() {
-        mContext=getApplicationContext();
+        mContext = getApplicationContext();
 
         pcbang_list = findViewById(R.id.main_fav_listview);
         textView = findViewById(R.id.tmpview);
@@ -153,34 +153,40 @@ public class Pcbang_Main_Activity extends AppCompatActivity {
     public void Callfav_list() {
         Pcinfo_arr.clear();
         String fav_arr = pref.getString("fav_list", null);
-        try {
-            JSONArray json_fav_list = new JSONArray(fav_arr);
+        if (fav_arr != null) {
+            try {
+                JSONArray json_fav_list = new JSONArray(fav_arr);
 
-            if (json_fav_list == null || json_fav_list.length() ==0) {
+                if (json_fav_list.length() == 0) {
 
-                textView.setVisibility(View.VISIBLE);
-                pcbang_list.setVisibility(View.GONE);
-                Log.d("Main_fav_data", "fav_save_no data");
-            } else {
+                    textView.setVisibility(View.VISIBLE);
+                    pcbang_list.setVisibility(View.GONE);
+                    Log.d("Main_fav_data", "fav_save_no data");
+                } else {
 
-                pcbang_list.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.GONE);
+                    pcbang_list.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.GONE);
 
-                for (int i = 0; i < json_fav_list.length(); i++) {
-                    SetPcBangList(json_fav_list.optString(i));
+                    for (int i = 0; i < json_fav_list.length(); i++) {
+                        SetPcBangList(json_fav_list.optString(i));
+                    }
+
+                    Log.d("Main_fav_data", "date ok  : " + fav_arr);
                 }
 
-                Log.d("Main_fav_data", "date ok  : " + fav_arr);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (NullPointerException d) {
+                d.printStackTrace();
             }
 
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        catch (NullPointerException d) {
-            d.printStackTrace();
+        else {
+            textView.setVisibility(View.VISIBLE);
+            pcbang_list.setVisibility(View.GONE);
+            Log.d("Main_fav_data", "fav_save_no data");
         }
-
     }
 
 

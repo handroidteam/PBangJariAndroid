@@ -22,7 +22,7 @@
         </activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCSBrazcq4_2ldSRka3S_37TCvlIRIWVac"/>
+            android:value="AIzaSyCycFL44ssYioKmV9hAKIsJKtPdlEB4u2U"/>
 
         <activity android:name=".Activity.Pcbang_Myloc_Activity"/>
         <activity android:name=".Activity.Pcbang_Subway_Activity"/>
