@@ -54,17 +54,8 @@ public class Pcbang_Event_Activity extends Activity {
         setContentView(R.layout.pcbang_event_layout);
         setting_layout();
 
-        TextView call = findViewById(R.id.btn_call);
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HttpRequest httpRequest = new HttpRequest(httpCallback);
-                httpRequest.execute(Pcbang_uri.pcBang_allceo);
-
-               // HttpRequester httpRequester = new HttpRequester();
-               // httpRequester.request(Pcbang_Event_Activity.this, Pcbang_uri.pcBang_allceo, httpCallback);
-            }
-        });
+        HttpRequest httpRequest = new HttpRequest(httpCallback);
+        httpRequest.execute(Pcbang_uri.pcBang_allceo);
 
 
         pcbang_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -102,28 +93,24 @@ public class Pcbang_Event_Activity extends Activity {
                 Pcinfo_arr.clear(); //서버 데이터 통신
                 JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
                 Log.d("event_data", "call" + result);
-                for (int i = 0; i < root.length(); i++) {
-                    try {
-                        tmps = root.getJSONObject(i).getDouble("ratingScore");
-                    } catch (JSONException e) {
-                        tmps = 0.0;
-                        Log.d("event_data", "rating error");
-                    }
+                for (int i = 0; i < 2; i++) {
 
                     Pcinfo_arr.add(
-                            new PcBang_info(root.getJSONObject(i).getString("pcBangName"),
+                            new PcBang_info(
+                                    root.getJSONObject(i).getString("pcBangName"),
                                     root.getJSONObject(i).getString("tel"),
                                     root.getJSONObject(i).getJSONObject("address").getString("postCode"),
                                     root.getJSONObject(i).getJSONObject("address").getString("roadAddress"),
                                     root.getJSONObject(i).getString("_id"),
                                     root.getJSONObject(i).getJSONObject("address").getString("detailAddress"),
-                                    tmps,
+                                    0.0,
                                     Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lat")),
                                     Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lon"))));
 
                 }
 
                 PcbangAdapter.notifyDataSetChanged();
+
                 Log.d("event_data", "호출완료");
 
 

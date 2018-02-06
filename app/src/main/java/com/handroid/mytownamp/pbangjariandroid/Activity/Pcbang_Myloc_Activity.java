@@ -49,8 +49,8 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
     public void setting() {
         btn_text_back = findViewById(R.id.btn_text_back);
         text_title = findViewById(R.id.text_title);
-        btn_request= findViewById(R.id.btn_request);
-        btn_request.setOnClickListener(this);
+       // btn_request= findViewById(R.id.btn_request);
+        //btn_request.setOnClickListener(this);
         btn_text_back.setOnClickListener(this);
         pcbang_list = findViewById(R.id.loc_list);
         PcbangAdapter = new Pcbang_myloc_adpater(this, R.layout.pcbanglist, Pcinfo_arr);
@@ -80,9 +80,9 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
 
     public void onClick(View o){
         switch (o.getId()){
-            case R.id.btn_request :
+           /* case R.id.btn_request :
                 Location_SettingCheck();
-                break;
+                break;*/
             case R.id.btn_text_back :
                 finish();
                 break;

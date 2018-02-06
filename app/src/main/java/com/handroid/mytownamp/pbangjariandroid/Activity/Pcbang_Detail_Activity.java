@@ -31,7 +31,7 @@ import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_detail_info;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpRequest;
-import com.handroid.mytownamp.pbangjariandroid.ViewSeat;
+import com.handroid.mytownamp.pbangjariandroid.Common.ViewSeat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,7 +101,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
     }
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pcbang_detail_layout);
         SetLayout();//레이아웃세팅;
@@ -118,9 +118,14 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
 
 
         //container.addView(PCseatView(inflateView, 4, 5, nums));
-        container.addView(new ViewSeat().SettingPcMap(this, 4, 5, nums, container, inflateView, pcmap));
+        //container.addView(new ViewSeat().SettingPcMap(this, 4, 5, nums, container, inflateView, pcmap));
+        SetFavButtonCheck();
 
 
+
+
+    }
+    public void SetFavButtonCheck(){
         String json_fav_list = mPref.getString("fav_list", null); //즐겨찾기 목록 불러오기
         if (json_fav_list != null) {
             try {
@@ -132,22 +137,22 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                         btn_text_fav.setTag("on"); //태그 on
                         btn_text_fav.setBackgroundResource(android.R.drawable.btn_star_big_on);
                         Log.d("fav_data", "switch 0n");
-
                     }
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-
     }
 
     public void SetPcBangList(String Pcbang_id) { //샘플데이터
-
         HttpRequest httpRequester = new HttpRequest(httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_search_id + Pcbang_id);
+    }
+
+    public void SetLoadMap(String Pcbang_id) { //MAP
+        HttpRequest httpRequester = new HttpRequest(MapCallback);
+        httpRequester.execute(Pcbang_uri.pcBang_map_info + Pcbang_id);
 
     }
 
@@ -161,6 +166,9 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 Layout_pcbang_event.setVisibility(View.GONE);
                 break;
             case R.id.btn_text_seat:
+
+
+
                 Layout_pcbang_map.setVisibility(View.GONE);
                 Layout_pcbang_seat.setVisibility(View.VISIBLE);
                 Layout_pcbang_review.setVisibility(View.GONE);
@@ -327,8 +335,56 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
             } catch (NullPointerException f) {
                 Toast.makeText(Pcbang_Detail_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
+            finally {
+                SetLoadMap("5a741d533ac91d11f82d8baf");
+            }
+        }
+
+
+    };
+    HttpCallback MapCallback = new HttpCallback() {
+        @Override
+        public void onResult(String result) {
+            try {
+                int[] d;
+                JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
+                JSONArray pcinfo = root.getJSONObject(0).getJSONArray("pcInfo");
+                Log.d("sub_data", "pcMapTable _id =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("_id"));
+                Log.d("sub_data", "pcMapTable sector=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("sector"));
+                Log.d("sub_data", "pcMapTable row=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("row"));
+                Log.d("sub_data", "pcMapTable col =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("col"));
+                int row=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("row"));
+                int col=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("col"));
+                int size=row*col;
+                d=new int[size];
+                for (int c = 0; c < pcinfo.length(); c++) {
+                    Log.d("sub_data", "pcInfo _id =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("_id"));
+                    Log.d("sub_data", "pcInfo sector =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("sector"));
+                    Log.d("sub_data", "pcInfo pcNumber =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
+                    Log.d("sub_data", "pcInfo pcPlace =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
+                    int pos=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
+                    int value=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
+                    d[pos]=value;
+                }
+
+                Log.d("sub_data", "lastSearchDate  =" + root.getJSONObject(0).getString("lastSearchDate"));
+                Log.d("sub_data", "_id =" + root.getJSONObject(0).getString("_id"));
+                Log.d("sub_data", "pcBangId =" + root.getJSONObject(0).getString("pcBangId"));
+                Log.d("sub_data", "__v =" + root.getJSONObject(0).getString("__v"));
+
+                container.addView(new ViewSeat().SettingPcMap(Pcbang_Detail_Activity.this, row, col, d, container, inflateView, pcmap));
+
+            } catch (JSONException d) {
+
+                d.printStackTrace();
+
+            } catch (NullPointerException f) {
+                Toast.makeText(Pcbang_Detail_Activity.this, "데이터 에러", Toast.LENGTH_SHORT).show();
+            }
+
+
+
         }
     };
-
-
 }
+
