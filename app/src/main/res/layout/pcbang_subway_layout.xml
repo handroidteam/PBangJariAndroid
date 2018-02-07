@@ -15,7 +15,7 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/btn_search_sub"
+            android:id="@+id/btn_search"
             android:layout_width="50dp"
             android:layout_height="46dp"
             android:layout_alignParentRight="true"
@@ -46,10 +46,52 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/sub_lay3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="역이름을 입력하세요"
+                    android:inputType="text" />
+
+                <TextView
+                    android:id="@+id/btn_search_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="검색"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/sub_lay1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <ListView
                 android:id="@+id/list"
@@ -64,13 +106,10 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <ListView
+                android:id="@+id/sub_loc_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="com.example.mytownpcbang.Activity.Pcbang_Subway_Activity" />
+                android:layout_height="match_parent" />
         </LinearLayout>
 
     </FrameLayout>

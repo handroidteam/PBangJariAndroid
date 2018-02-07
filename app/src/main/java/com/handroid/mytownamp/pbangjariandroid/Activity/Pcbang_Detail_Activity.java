@@ -236,7 +236,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
 
     public void Shared_Fav() {
         if (btn_text_fav.getTag().toString().equals("on")) {//즐겨찾기 되어잇을시
-            final AlertDialog.Builder fav_Alert = new AlertDialog.Builder(mContext, MODE_APPEND);
+            final AlertDialog.Builder fav_Alert = new AlertDialog.Builder(Pcbang_Detail_Activity.this, MODE_APPEND);
             fav_Alert.setTitle("즐겨찾기");
             fav_Alert.setMessage("즐겨찾기를 해제하시겠습니까?");
             fav_Alert.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
@@ -336,7 +336,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 Toast.makeText(Pcbang_Detail_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
             finally {
-                SetLoadMap("5a741d533ac91d11f82d8baf");
+                SetLoadMap("5a7ab5de11daa43e9f4074ec");
             }
         }
 
@@ -364,7 +364,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                     Log.d("sub_data", "pcInfo pcPlace =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
                     int pos=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
                     int value=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
-                    d[pos]=value;
+                    d[pos-1]=value;
                 }
 
                 Log.d("sub_data", "lastSearchDate  =" + root.getJSONObject(0).getString("lastSearchDate"));

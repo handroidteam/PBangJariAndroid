@@ -30,9 +30,9 @@ import java.util.ArrayList;
  * Created by Jeongmin on 2018-01-20.
  */
 
-public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListener,ListView.OnItemClickListener {
+public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListener, ListView.OnItemClickListener {
 
-    TextView btn_text_back, text_title,btn_request;
+    TextView btn_text_back, text_title, btn_request;
 
     Pcbang_myloc_adpater PcbangAdapter;
     ArrayList<Pcbang_myloc_info> Pcinfo_arr = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
     public void setting() {
         btn_text_back = findViewById(R.id.btn_text_back);
         text_title = findViewById(R.id.text_title);
-       // btn_request= findViewById(R.id.btn_request);
+        // btn_request= findViewById(R.id.btn_request);
         //btn_request.setOnClickListener(this);
         btn_text_back.setOnClickListener(this);
         pcbang_list = findViewById(R.id.loc_list);
@@ -78,12 +78,12 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
     }
 
 
-    public void onClick(View o){
-        switch (o.getId()){
+    public void onClick(View o) {
+        switch (o.getId()) {
            /* case R.id.btn_request :
                 Location_SettingCheck();
                 break;*/
-            case R.id.btn_text_back :
+            case R.id.btn_text_back:
                 finish();
                 break;
         }
@@ -110,7 +110,7 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
             if (latitude != 0 && longitude != 0) {
                 Log.d("data_myloc", "My Location  " + gps.getLatitude() + "/" + gps.getLongitude());
                 setmyloc(latitude, longitude);
-            }else{
+            } else {
                 Log.d("data_myloc", "Not found My location");
             }
         } else {
@@ -132,37 +132,45 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
     HttpCallback httpCallback = new HttpCallback() {
         @Override
         public void onResult(String result) {
-            try {
-                Pcinfo_arr.clear(); //서버 데이터 통신
-                JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
-                Log.d("data_myloc", "결과" + result);
-                if (root.length() != 0) {
-                    for (int i = 0; i < root.length(); i++) {
-                        Pcinfo_arr.add(
-                                new Pcbang_myloc_info(root.getJSONObject(i).getString("pcBangName"),
-                                        root.getJSONObject(i).getString("tel"),
-                                        root.getJSONObject(i).getJSONObject("address").getString("postCode"),
-                                        root.getJSONObject(i).getJSONObject("address").getString("roadAddress"),
-                                        root.getJSONObject(i).getString("_id"),
-                                        root.getJSONObject(i).getJSONObject("address").getString("detailAddress"),
-                                        root.getJSONObject(i).getDouble("ratingScore"),
-                                        Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lat")),
-                                        Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lon")),
-                                        latitude, longitude)
-                        );
+            if (result.equals("DataNull")) {
+                Log.d("data_myloc", "No data");
+                Toast.makeText(Pcbang_Myloc_Activity.this, "500M안에 PC방이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
 
+            } else if (result.equals("DataInsertError")) {
+                Log.d("data_myloc", "Data Insert Error");
+            } else {
+                try {
+                    Pcinfo_arr.clear(); //서버 데이터 통신
+                    JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
+                    Log.d("data_myloc", "결과" + result);
+                    if (root.length() != 0) {
+                        for (int i = 0; i < root.length(); i++) {
+                            Pcinfo_arr.add(
+                                    new Pcbang_myloc_info(root.getJSONObject(i).getString("pcBangName"),
+                                            root.getJSONObject(i).getString("tel"),
+                                            root.getJSONObject(i).getJSONObject("address").getString("postCode"),
+                                            root.getJSONObject(i).getJSONObject("address").getString("roadAddress"),
+                                            root.getJSONObject(i).getString("_id"),
+                                            root.getJSONObject(i).getJSONObject("address").getString("detailAddress"),
+                                            root.getJSONObject(i).getDouble("ratingScore"),
+                                            Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lat")),
+                                            Double.parseDouble(root.getJSONObject(i).getJSONObject("location").getString("lon")),
+                                            latitude, longitude)
+                            );
+
+                        }
+                    } else {
+                        Toast.makeText(Pcbang_Myloc_Activity.this, "500M안에 PC방이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
-                } else {
-                    Toast.makeText(Pcbang_Myloc_Activity.this, "500M안에 PC방이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
 
-            } catch (JSONException d) {
-                d.printStackTrace();
-            } catch (NullPointerException f) {
-                Toast.makeText(Pcbang_Myloc_Activity.this, "에러", Toast.LENGTH_SHORT).show();
+                } catch (JSONException d) {
+                    d.printStackTrace();
+                } catch (NullPointerException f) {
+                    Toast.makeText(Pcbang_Myloc_Activity.this, "에러", Toast.LENGTH_SHORT).show();
+                }
+                PcbangAdapter.notifyDataSetChanged();
             }
-            PcbangAdapter.notifyDataSetChanged();
         }
     };
 

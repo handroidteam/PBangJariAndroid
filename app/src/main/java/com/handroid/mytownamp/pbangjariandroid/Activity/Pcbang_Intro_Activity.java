@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -52,7 +53,15 @@ public class Pcbang_Intro_Activity extends Activity {
             @Override
             public void onAnimationEnd(Animation animation) {
 //테스트
-                checkPermission();
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;   //SDK의 레벨을 받아온다.
+                if (currentapiVersion >= Build.VERSION_CODES.M) {
+                    // 현재 디바이스의 버전이 마시멜로우 이상일 경우.
+                    checkPermission();
+                } else {
+                    // 현재 디바이스의 버전이 마시멜로우 미만일 경우.
+                    handler.postDelayed(r, 500);
+                }
+
             }
 
             @Override
@@ -86,6 +95,7 @@ public class Pcbang_Intro_Activity extends Activity {
 
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {

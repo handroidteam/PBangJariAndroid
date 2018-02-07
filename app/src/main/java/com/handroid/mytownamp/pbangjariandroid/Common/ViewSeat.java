@@ -27,8 +27,8 @@ import static android.widget.ImageView.ScaleType.FIT_CENTER;
 
 public class ViewSeat {
     public ZoomView SettingPcMap(Context mContext, int rows, int colums, int[] data, LinearLayout container, View inflateView, LinearLayout pcmap) {
-        //ScrollView rosScroll = new ScrollView(mContext);
-       // HorizontalScrollView colScroll = new HorizontalScrollView(mContext);
+        ScrollView rosScroll = new ScrollView(mContext);
+        HorizontalScrollView colScroll = new HorizontalScrollView(mContext);
 
 
         GridLayout grid = new GridLayout(mContext); //새로생성
@@ -43,16 +43,16 @@ public class ViewSeat {
         int count = 0;
         try {
             for (int c = 0; c < data.length; c++) {
-                ImageView imageView= new ImageView(mContext);
+               // ImageView imageView= new ImageView(mContext);
               // imageView.setScaleType(FIT_CENTER);
-                imageView.setMaxWidth(90);
-                imageView.setMaxHeight(50);
+               // imageView.setMaxWidth(90);
+               // imageView.setMaxHeight(50);
 
                 TextView tmps = new TextView(mContext);
                // tmps.setMaxWidth(15);
 
-                tmps.setWidth(90);
-                tmps.setHeight(70);
+                tmps.setWidth(100);
+                tmps.setHeight(80);
                 tmps.setGravity(Gravity.CENTER);
                   /*  if (data[count] == 0) {
                         tmps.setBackgroundResource(R.drawable.unusable1);
@@ -64,16 +64,17 @@ public class ViewSeat {
                         tmps.setText("");
                     }*/
                 if (data[count] == 0) {
-                    imageView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.unusable2));
-                    imageView.setVisibility(View.INVISIBLE);
-                   // tmps.setBackgroundResource(R.drawable.unusable1);
+                    //imageView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.unusable2));
+                   // imageView.setVisibility(View.INVISIBLE);
+                   // tmps.setBackgroundResource(R.drawable.unusable2);
+                    tmps.setText(" ");
                 } else {
-                    //tmps.setBackgroundResource(R.drawable.usable1);
-                    imageView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.usable2));
+                    tmps.setBackgroundResource(R.drawable.usable2);
+                    //imageView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.usable2));
 
                 }
 
-                grid.addView(imageView);
+                grid.addView(tmps);
                 count++;
 
 
@@ -82,9 +83,9 @@ public class ViewSeat {
             Log.d("Viewseat", "ArrayIndexOutOfBoundsException");
         }
 
-       // rosScroll.addView(colScroll);
-       // colScroll.addView(grid);
-        pcmap.addView(grid);
+        rosScroll.addView(colScroll);
+        colScroll.addView(grid);
+        pcmap.addView(rosScroll);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.gravity = Gravity.CENTER;
         ZoomView zoomView = new ZoomView(mContext);

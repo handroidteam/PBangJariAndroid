@@ -1,5 +1,6 @@
 package com.handroid.mytownamp.pbangjariandroid.Server;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ProgressBar;
@@ -27,6 +28,8 @@ public class HttpRequest extends AsyncTask<String, String, String> {
     JSONObject jsonObject;
     String STATE;
 
+
+
     public HttpRequest(HttpCallback callback) {
         this.callback = callback;
         STATE = "GET";
@@ -37,7 +40,11 @@ public class HttpRequest extends AsyncTask<String, String, String> {
         this.jsonObject = jsonObject;
         STATE = "POST";
     }
+    @Override
+    protected void onPreExecute() {
 
+        super.onPreExecute();
+    }
     @Override
     protected String doInBackground(String... urls) {
         String response = "";
@@ -89,6 +96,8 @@ public class HttpRequest extends AsyncTask<String, String, String> {
 
         return response;
     }
+
+
 
 
     @Override
