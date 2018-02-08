@@ -36,7 +36,7 @@ public class Pcbang_Review_Activity extends Activity {
 
     public synchronized void SetPcBangList(String data) { //샘플데이터
 
-        HttpRequest httpRequester = new HttpRequest(httpCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Review_Activity.this,"검색중입니다",httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_map_info + data);
 
     }

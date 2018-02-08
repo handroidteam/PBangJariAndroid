@@ -124,7 +124,7 @@ public class Pcbang_Myloc_Activity extends Activity implements View.OnClickListe
 
     public void SetPcBangList() { //샘플데이터
 
-        HttpRequest httpRequester = new HttpRequest(jsonObject, httpCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Myloc_Activity.this,"검색중입니다",jsonObject, httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_map_range);
 
     }

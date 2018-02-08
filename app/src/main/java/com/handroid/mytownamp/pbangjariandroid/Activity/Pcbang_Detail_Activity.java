@@ -146,12 +146,12 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
     }
 
     public void SetPcBangList(String Pcbang_id) { //샘플데이터
-        HttpRequest httpRequester = new HttpRequest(httpCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Detail_Activity.this,"검색중입니다",httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_search_id + Pcbang_id);
     }
 
     public void SetLoadMap(String Pcbang_id) { //MAP
-        HttpRequest httpRequester = new HttpRequest(MapCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Detail_Activity.this,"검색중입니다",MapCallback);
         httpRequester.execute(Pcbang_uri.pcBang_map_info + Pcbang_id);
 
     }

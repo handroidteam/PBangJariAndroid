@@ -86,7 +86,7 @@ public class Pcbang_Favorite_Activity extends Activity implements View.OnClickLi
 
 
     public synchronized void SetPcBangList(String data) { //샘플데이터
-        HttpRequest httpRequester = new HttpRequest(httpCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Favorite_Activity.this,"검색중입니다",httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_search_id + data);
     }
 

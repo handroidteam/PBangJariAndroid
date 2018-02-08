@@ -54,7 +54,7 @@ public class Pcbang_Event_Activity extends Activity {
         setContentView(R.layout.pcbang_event_layout);
         setting_layout();
 
-        HttpRequest httpRequest = new HttpRequest(httpCallback);
+        HttpRequest httpRequest = new HttpRequest(Pcbang_Event_Activity.this,"검색중입니다",httpCallback);
         httpRequest.execute(Pcbang_uri.pcBang_allceo);
 
 

@@ -27,22 +27,31 @@ public class HttpRequest extends AsyncTask<String, String, String> {
     HttpCallback callback;
     JSONObject jsonObject;
     String STATE;
+    Context mContext;
+    String message;
+    ProgressDialog progressDialog;
 
 
 
-    public HttpRequest(HttpCallback callback) {
+    public HttpRequest(Context mContext,String message,HttpCallback callback) {
         this.callback = callback;
         STATE = "GET";
+        this.mContext=mContext;
+        this.message=message;
     }
 
-    public HttpRequest(JSONObject jsonObject, HttpCallback callback) {
+    public HttpRequest(Context mContext,String message,JSONObject jsonObject, HttpCallback callback) {
+        this.mContext=mContext;
+        this.message=message;
         this.callback = callback;
         this.jsonObject = jsonObject;
         STATE = "POST";
     }
     @Override
     protected void onPreExecute() {
-
+        progressDialog=new ProgressDialog(mContext);
+        progressDialog.setMessage(message);
+        progressDialog.show();
         super.onPreExecute();
     }
     @Override
@@ -103,6 +112,7 @@ public class HttpRequest extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String result) {
         this.callback.onResult(result);
+        progressDialog.dismiss();
 
 
     }
