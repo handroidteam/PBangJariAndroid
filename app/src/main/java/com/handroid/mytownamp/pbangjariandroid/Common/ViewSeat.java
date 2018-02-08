@@ -60,7 +60,7 @@ public class ViewSeat {
                         tmps.setBackgroundResource(R.drawable.usable1);
                     } else if (data[count] == 2) {
                         tmps.setBackgroundResource(R.drawable.checking1);
-                    } else {
+                    } else {keytool -list -v -keystore mystore.keystore
                         tmps.setText("");
                     }*/
                 if (data[count] == 0) {
@@ -69,7 +69,9 @@ public class ViewSeat {
                    // tmps.setBackgroundResource(R.drawable.unusable2);
                     tmps.setText(" ");
                 } else {
-                    tmps.setBackgroundResource(R.drawable.usable2);
+                    tmps.setText(""+data[count]);
+                    tmps.setTextColor(Color.BLUE);
+                    //tmps.setBackgroundResource(R.drawable.usable2);
                     //imageView.setBackground(ContextCompat.getDrawable(mContext,R.drawable.usable2));
 
                 }

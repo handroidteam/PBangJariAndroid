@@ -358,10 +358,10 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 int size=row*col;
                 d=new int[size];
                 for (int c = 0; c < pcinfo.length(); c++) {
-                    Log.d("sub_data", "pcInfo _id =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("_id"));
-                    Log.d("sub_data", "pcInfo sector =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("sector"));
-                    Log.d("sub_data", "pcInfo pcNumber =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
-                    Log.d("sub_data", "pcInfo pcPlace =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
+                   // Log.d("sub_data", "pcInfo _id =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("_id"));
+                  //  Log.d("sub_data", "pcInfo sector =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("sector"));
+                 //   Log.d("sub_data", "pcInfo pcNumber =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
+                 //   Log.d("sub_data", "pcInfo pcPlace =" + root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
                     int pos=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcPlace"));
                     int value=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcInfo").getJSONObject(c).getString("pcNumber"));
                     d[pos-1]=value;

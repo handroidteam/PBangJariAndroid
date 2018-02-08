@@ -88,18 +88,23 @@ public class Pcbang_Main_Activity extends AppCompatActivity {
             case R.id.btn_myloc://내위치
                 Intent intent1 = new Intent(Pcbang_Main_Activity.this, Pcbang_Myloc_Activity.class);
                 startActivity(intent1);
+                overridePendingTransition(R.anim.activityup, R.anim.activitydown);
+
                 break;
             case R.id.btn_sub://지하철역
                 Intent intent2 = new Intent(Pcbang_Main_Activity.this, Pcbang_Subway_Activity.class);
                 startActivity(intent2);
+                overridePendingTransition(R.anim.activityleft, R.anim.activityright);
                 break;
             case R.id.btn_event://이벤트
                 Intent intent3 = new Intent(Pcbang_Main_Activity.this, Pcbang_Event_Activity.class);
                 startActivity(intent3);
+                overridePendingTransition(R.anim.activityleft, R.anim.activityright);
                 break;
             case R.id.btn_fav://즐겨찾기
                 Intent intent4 = new Intent(Pcbang_Main_Activity.this, Pcbang_Favorite_Activity.class);
                 startActivity(intent4);
+                overridePendingTransition(R.anim.activityup, R.anim.activitydown);
                 break;
         }
 

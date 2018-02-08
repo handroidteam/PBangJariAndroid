@@ -35,6 +35,7 @@ public class Pcbang_Intro_Activity extends Activity {
         }
     };
 
+    //key0 kjm qwe123
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

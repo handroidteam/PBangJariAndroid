@@ -167,8 +167,7 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
                 break;
             case R.id.btn_search_sub:
 
-                resultdata.clear();
-                adapter2.notifyDataSetChanged();
+
 
                 SearchSubway searchSubway = new SearchSubway();
                 searchSubway.execute();
@@ -231,7 +230,6 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
 
             longitude = Double.parseDouble(result.split("cacheResponse")[2].split("],")[0].split(",")[1]);
             latitude = Double.parseDouble(result.split("cacheResponse")[2].split("],")[0].split(",")[2]);
-
 
             setmyloc(latitude, longitude);
 
@@ -401,7 +399,11 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
     }
 
     public class SearchSubway extends AsyncTask<String, String, String> {
-
+        @Override
+        protected void onPreExecute() {
+            resultdata.clear();
+            adapter2.notifyDataSetChanged();
+        }
 
         @Override
         protected String doInBackground(String... strings) {
@@ -429,6 +431,8 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
 
             return null;
         }
+
+
 
 
         @Override
