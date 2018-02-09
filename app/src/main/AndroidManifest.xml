@@ -12,8 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Pcbang_Intro_Activity">
+        android:theme="@style/AppTheme"
+        android:screenOrientation="portrait">
+        <activity android:name=".Activity.Pcbang_Intro_Activity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,12 +26,20 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".Activity.Pcbang_Myloc_Activity"/>
-        <activity android:name=".Activity.Pcbang_Subway_Activity"/>
-        <activity android:name=".Activity.Pcbang_Event_Activity"/>
-        <activity android:name=".Activity.Pcbang_Favorite_Activity"/>
-        <activity android:name=".Activity.Pcbang_Detail_Activity"/>
-        <activity android:name=".Activity.Pcbang_Main_Activity"/>
+        <activity android:name=".Activity.Pcbang_Myloc_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Subway_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Event_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Favorite_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Detail_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Main_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activity.Pcbang_Review_Activity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -1,5 +1,7 @@
 package com.handroid.mytownamp.pbangjariandroid.Common;
 
+import android.graphics.Color;
+
 /**
  * Created by KimJeongMin on 2018-02-06.
  */
@@ -16,6 +18,9 @@ public class Subway_info {
             "신분당선", "경춘선",
             "경강선", "우이신설로"};
     //1호선
+
+
+
     public static String[] Line1 = {
             "소요산", "동두천", "보산", "동두천중앙", "지행", "덕정", "덕계", "양주", "녹양",
             "가능", "의정부", "회룡", "망월사", "도봉산,도봉", "방학", "창동", "녹천", "월계",

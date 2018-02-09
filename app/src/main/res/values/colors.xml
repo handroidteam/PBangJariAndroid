@@ -3,8 +3,27 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="mred">#ed1c24</color>
-    <color name="mgreen">#27ae60</color>
-    <color name="mblue">#00a2e8</color>
-    <color name="myellow">#b5e61d</color>
+
+    <color name="line1">#0052A4</color>
+    <color name="line2">#009D3E</color>
+    <color name="line3">#EF7C1C</color>
+    <color name="line4">#00A5DE</color>
+    <color name="line5">#996CAC</color>
+    <color name="line6">#CD7C2F</color>
+    <color name="line7">#747F00</color>
+    <color name="line8">#EA545D</color>
+    <color name="line9">#A17E46</color>
+    <color name="LineBundang">#F5A200</color>
+    <color name="Gyeonguijoungang">#77C4A3</color>
+    <color name="LineAirportRailroad">#0065b3</color>
+    <color name="LineIncheon1">#7CA8D5</color>
+    <color name="LineIncheon2">#ED8B00</color>
+    <color name="LineSuin">#F5A200</color>
+    <color name="LineSinbungdang">#D4003B</color>
+    <color name="LineGyeonggang">#003DA5</color>
+    <color name="LineWooeSinseulLrt">#B7C452</color>
+    <color name="LineGyeongChun">#0C8E72</color>
+
+
 </resources>
+

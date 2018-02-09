@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -52,15 +53,13 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
     RatingBar pcbang_ratingbar;
     GoogleMap map;
     LinearLayout container;
-    View inflateView;
-    GridLayout grid;
-    //
+
+
 
     SharedPreferences mPref;
     SharedPreferences.Editor mEditor;
 
-    LinearLayout pcmap;
-    int[] nums = {0, 3, 0, 1, 1, 1, 1, 0, 2, 0, 0, 3, 1, 1, 1, 0, 0, 2, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0};
+
     String Pcbang_id;
     ArrayList<String> fav_list = new ArrayList<>();
     Pcbang_detail_info pcBang_info;
@@ -113,8 +112,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
         //pc방 정보 세팅
 
         //인플레이트 레이아웃
-        inflateView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.zoom_item, null, false);
-        pcmap = inflateView.findViewById(R.id.Grid);
+
 
 
         //container.addView(PCseatView(inflateView, 4, 5, nums));
@@ -184,7 +182,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 break;
             case R.id.btn_text_review_write:
                 Intent reviewIntent = new Intent(mContext, Pcbang_Review_Activity.class);
-                reviewIntent.putExtra("pcbanginfo2", Pcbang_id);
+                reviewIntent.putExtra("pcbangename", pcBang_info.getPcBangName());
                 startActivity(reviewIntent);
                 Layout_pcbang_review.setVisibility(View.GONE);
                 Layout_pcbang_map.setVisibility(View.GONE);
@@ -371,9 +369,14 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 Log.d("sub_data", "_id =" + root.getJSONObject(0).getString("_id"));
                 Log.d("sub_data", "pcBangId =" + root.getJSONObject(0).getString("pcBangId"));
                 Log.d("sub_data", "__v =" + root.getJSONObject(0).getString("__v"));
+                View inflateView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.zoom_item, null, false);
+                LinearLayout pcmap = inflateView.findViewById(R.id.Grid);
+               try {
+                   container.addView(new ViewSeat().SettingPcMap(Pcbang_Detail_Activity.this, row, col, d, container, inflateView, pcmap));
+               }
+               catch(InflateException e){
 
-                container.addView(new ViewSeat().SettingPcMap(Pcbang_Detail_Activity.this, row, col, d, container, inflateView, pcmap));
-
+               }
             } catch (JSONException d) {
 
                 d.printStackTrace();

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ import com.handroid.mytownamp.pbangjariandroid.Common.Subway_info;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.PcBang_info;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_myloc_adpater;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_myloc_info;
+import com.handroid.mytownamp.pbangjariandroid.PcbangArray.Pcbang_subway_adapter;
 import com.handroid.mytownamp.pbangjariandroid.PcbangArray.pcAdapter;
 import com.handroid.mytownamp.pbangjariandroid.R;
 import com.handroid.mytownamp.pbangjariandroid.Server.HttpCallback;
@@ -72,7 +74,7 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
 
 
     ListView Subwaylist;
-    ArrayAdapter adapter;
+    Pcbang_subway_adapter adapter;
     ArrayList<String> strings = new ArrayList<>();
     String[] data;
 
@@ -107,7 +109,7 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
         btn_search_sub.setOnClickListener(this);
         btn_search.setOnClickListener(this);
         Subwaylist = (ListView) findViewById(R.id.list);
-        adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, strings);
+        adapter = new Pcbang_subway_adapter(mContext, R.layout.pcbang_subway_list_custom, strings);
         Subwaylist.setAdapter(adapter);
         Subwaylist.setOnItemClickListener(this);
 
@@ -160,13 +162,11 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
                     sub_lay3.setVisibility(View.GONE);
                     sub_lay2.setVisibility(View.GONE);
                     sub_lay1.setVisibility(View.VISIBLE);
-
                 } else {
                     finish();
                 }
                 break;
             case R.id.btn_search_sub:
-
 
 
                 SearchSubway searchSubway = new SearchSubway();
@@ -192,8 +192,10 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.d("Sub_data", "" + adapterView.getAdapter().getItem(i));
         final String[] datas = new Subway_info().GetData(data[i]);
-        if (data[i].equals(adapterView.getAdapter().getItem(i))) {
 
+        Log.d("list_sub", "리스트item" + adapterView.getAdapter().getItem(i));
+        if (data[i].equals(adapterView.getAdapter().getItem(i))) {
+            Log.d("list_sub", "1번" + adapterView.getAdapter().getItem(i));
             AlertDialog.Builder a = new AlertDialog.Builder(Pcbang_Subway_Activity.this);
             a.setItems(datas, new DialogInterface.OnClickListener() {
                 @Override
@@ -205,13 +207,14 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
                 }
             });
             a.show();
-
-        } else if (resultdata.get(i).equals(adapterView.getAdapter().getItem(i))) {
-            HttpRequests dd = new HttpRequests(search_subwaylocation);
-            dd.execute(Pcbang_uri.pcBang_sub_location + resultdata.get(i) + "역");
-
-
+        } else if (resultdata.size()!=0) {
+            if (resultdata.get(i).equals(adapterView.getAdapter().getItem(i))) {
+                Log.d("list_sub", "2번" + resultdata.get(i) + "/" + adapterView.getAdapter().getItem(i));
+                HttpRequests dd = new HttpRequests(search_subwaylocation);
+                dd.execute(Pcbang_uri.pcBang_sub_location + resultdata.get(i) + "역");
+            }
         } else {
+            Log.d("list_sub", "3번" + "/" + adapterView.getAdapter().getItem(i));
             Intent intent = new Intent(Pcbang_Subway_Activity.this, Pcbang_Detail_Activity.class);
             intent.putExtra("pcbanginfo", Pcinfo_arr.get(i).get_id());
             startActivity(intent);
@@ -279,7 +282,7 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
                 http.setRequestMethod("GET");
                 http.setDoInput(true);
 
-                Log.d("Sub_data", "http = " + http.getInputStream());
+
                 switch (http.getResponseCode()) {
                     case HttpURLConnection.HTTP_NOT_FOUND:
                         response = "DataNull";
@@ -335,7 +338,7 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
 
     public void SetPcBangList() { //샘플데이터
 
-        HttpRequest httpRequester = new HttpRequest(Pcbang_Subway_Activity.this,"검색중입니다",jsonObject, httpCallback);
+        HttpRequest httpRequester = new HttpRequest(Pcbang_Subway_Activity.this, "검색중입니다", jsonObject, httpCallback);
         httpRequester.execute(Pcbang_uri.pcBang_map_range);
 
     }
@@ -431,8 +434,6 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
 
             return null;
         }
-
-
 
 
         @Override
