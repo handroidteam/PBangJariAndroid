@@ -7,7 +7,7 @@ package com.handroid.mytownamp.pbangjariandroid.PcbangArray;
 public class Pcbang_detail_info {
     private String pcBangName;//
     private String pcBangTel;
-    private String postCode;
+
     private String roadAddress;
     private String detailAddress;
     private Double ratingScore;
@@ -21,7 +21,6 @@ public class Pcbang_detail_info {
 
     public Pcbang_detail_info(String pcBangName,
                               String pcBangTel,
-                              String postCode,
                               String roadAddress,
                               String _id,
                               String detailAddress,
@@ -33,7 +32,7 @@ public class Pcbang_detail_info {
                               String VGA) {
         this.pcBangName = pcBangName;
         this.pcBangTel = pcBangTel;
-        this.postCode = postCode;
+
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
         this.ratingScore = ratingScore;
@@ -61,9 +60,6 @@ public class Pcbang_detail_info {
         return pcBangTel;
     }
 
-    public String getpostCode() {
-        return postCode;
-    }
 
     public String getroadAddress() {
         return roadAddress;

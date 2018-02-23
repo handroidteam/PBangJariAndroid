@@ -300,7 +300,6 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 Log.d("detail_pc", "call" + result);
                 pcBang_info = new Pcbang_detail_info(root.getJSONObject(0).getString("pcBangName"),
                         root.getJSONObject(0).getString("tel"),
-                        root.getJSONObject(0).getJSONObject("address").getString("postCode"),
                         root.getJSONObject(0).getJSONObject("address").getString("roadAddress"),
                         root.getJSONObject(0).getString("_id"),
                         root.getJSONObject(0).getJSONObject("address").getString("detailAddress"),
@@ -334,7 +333,7 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                 Toast.makeText(Pcbang_Detail_Activity.this, "Server data NULL", Toast.LENGTH_SHORT).show();
             }
             finally {
-                SetLoadMap("5a7ab5de11daa43e9f4074ec");
+                SetLoadMap(Pcbang_id);
             }
         }
 
@@ -346,11 +345,14 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
             try {
                 int[] d;
                 JSONArray root = new JSONArray(result);//즐겨찾기 데이터값
+                Log.d("detail_data",""+result);
+
                 JSONArray pcinfo = root.getJSONObject(0).getJSONArray("pcInfo");
-                Log.d("sub_data", "pcMapTable _id =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("_id"));
-                Log.d("sub_data", "pcMapTable sector=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("sector"));
-                Log.d("sub_data", "pcMapTable row=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("row"));
-                Log.d("sub_data", "pcMapTable col =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("col"));
+                Log.d("detail_data",""+pcinfo);
+                Log.d("detail_data", "pcMapTable _id =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("_id"));
+                Log.d("detail_data", "pcMapTable sector=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("sector"));
+                Log.d("detail_data", "pcMapTable row=" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("row"));
+                Log.d("detail_data", "pcMapTable col =" + root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("col"));
                 int row=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("row"));
                 int col=Integer.parseInt(root.getJSONObject(0).getJSONArray("pcMapTable").getJSONObject(0).getString("col"));
                 int size=row*col;
@@ -365,10 +367,10 @@ public class Pcbang_Detail_Activity extends AppCompatActivity implements OnMapRe
                     d[pos-1]=value;
                 }
 
-                Log.d("sub_data", "lastSearchDate  =" + root.getJSONObject(0).getString("lastSearchDate"));
-                Log.d("sub_data", "_id =" + root.getJSONObject(0).getString("_id"));
-                Log.d("sub_data", "pcBangId =" + root.getJSONObject(0).getString("pcBangId"));
-                Log.d("sub_data", "__v =" + root.getJSONObject(0).getString("__v"));
+                Log.d("detail_data", "lastSearchDate  =" + root.getJSONObject(0).getString("lastSearchDate"));
+                Log.d("detail_data", "_id =" + root.getJSONObject(0).getString("_id"));
+                Log.d("detail_data", "pcBangId =" + root.getJSONObject(0).getString("pcBangId"));
+                Log.d("detail_data", "__v =" + root.getJSONObject(0).getString("__v"));
                 View inflateView = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.zoom_item, null, false);
                 LinearLayout pcmap = inflateView.findViewById(R.id.Grid);
                try {

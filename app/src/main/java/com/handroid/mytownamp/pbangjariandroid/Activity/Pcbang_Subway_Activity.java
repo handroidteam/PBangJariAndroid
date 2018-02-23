@@ -363,7 +363,6 @@ public class Pcbang_Subway_Activity extends AppCompatActivity implements View.On
                             Pcinfo_arr.add(
                                     new Pcbang_myloc_info(root.getJSONObject(i).getString("pcBangName"),
                                             root.getJSONObject(i).getString("tel"),
-                                            root.getJSONObject(i).getJSONObject("address").getString("postCode"),
                                             root.getJSONObject(i).getJSONObject("address").getString("roadAddress"),
                                             root.getJSONObject(i).getString("_id"),
                                             root.getJSONObject(i).getJSONObject("address").getString("detailAddress"),

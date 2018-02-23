@@ -9,7 +9,6 @@ import java.io.Serializable;
 public class Pcbang_myloc_info implements Serializable {
     private String pcBangName;//
     private String pcBangTel;
-    private String postCode;
     private String _id;
     private String roadAddress;
     private String detailAddress;
@@ -20,10 +19,10 @@ public class Pcbang_myloc_info implements Serializable {
     private Double myloc_Longitude;
 
 
-    public Pcbang_myloc_info(String pcBangName, String pcBangTel, String postCode, String roadAddress, String _id,String detailAddress, Double ratingScore,Double Latitude,Double Longitude,Double myloc_Latitude,Double myloc_Longitude) {
+    public Pcbang_myloc_info(String pcBangName, String pcBangTel, String roadAddress, String _id,String detailAddress, Double ratingScore,Double Latitude,Double Longitude,Double myloc_Latitude,Double myloc_Longitude) {
         this.pcBangName = pcBangName;
         this.pcBangTel = pcBangTel;
-        this.postCode = postCode;
+
         this._id=_id;
         this.roadAddress = roadAddress;
         this.detailAddress = detailAddress;
@@ -42,9 +41,6 @@ public class Pcbang_myloc_info implements Serializable {
         this.pcBangTel = pcBangTel;
     }
 
-    public void setpostCode(String postCode) {
-        this.postCode = postCode;
-    }
 
     public void setroadAddress(String roadAddress) {
         this.roadAddress = roadAddress;
@@ -81,9 +77,7 @@ public class Pcbang_myloc_info implements Serializable {
         return pcBangTel;
     }
 
-    public String getpostCode() {
-        return postCode;
-    }
+
 
     public String getroadAddress() {
         return roadAddress;

@@ -100,7 +100,6 @@ public class Pcbang_Favorite_Activity extends Activity implements View.OnClickLi
                 Pcinfo_arr.add(
                         new PcBang_info(root.getJSONObject(0).getString("pcBangName"),
                                 root.getJSONObject(0).getString("tel"),
-                                root.getJSONObject(0).getJSONObject("address").getString("postCode"),
                                 root.getJSONObject(0).getJSONObject("address").getString("roadAddress"),
                                 root.getJSONObject(0).getString("_id"),
                                 root.getJSONObject(0).getJSONObject("address").getString("detailAddress"),
